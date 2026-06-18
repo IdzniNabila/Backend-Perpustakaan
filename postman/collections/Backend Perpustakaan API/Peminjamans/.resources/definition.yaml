@@ -1,4 +1,0 @@
-$kind: collection
-name: 'Peminjamans'
-description: 'CRUD endpoints for borrowing transactions.'
-order: 6000

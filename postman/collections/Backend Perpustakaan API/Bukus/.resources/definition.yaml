@@ -1,4 +1,0 @@
-$kind: collection
-name: 'Bukus'
-description: 'CRUD endpoints for books.'
-order: 4000

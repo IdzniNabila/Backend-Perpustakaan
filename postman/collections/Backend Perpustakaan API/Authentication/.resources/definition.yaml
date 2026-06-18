@@ -1,4 +1,0 @@
-$kind: collection
-name: 'Authentication'
-description: 'Login and logout endpoints.'
-order: 1000

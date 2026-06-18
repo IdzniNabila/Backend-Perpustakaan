@@ -1,8 +1,0 @@
-$kind: http-request
-name: 'List anggotas'
-method: GET
-url: '{{base_url}}/anggotas'
-order: 5100
-headers:
-  - key: Accept
-    value: application/json

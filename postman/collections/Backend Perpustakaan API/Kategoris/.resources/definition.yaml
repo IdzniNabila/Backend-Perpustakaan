@@ -1,4 +1,0 @@
-$kind: collection
-name: 'Kategoris'
-description: 'CRUD endpoints for book categories.'
-order: 3000

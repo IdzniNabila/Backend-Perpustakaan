@@ -16,6 +16,8 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
+        dd($request->all());
+
         $user = User::where(
             'username',
             $request->username

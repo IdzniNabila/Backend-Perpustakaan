@@ -1,4 +1,0 @@
-$kind: collection
-name: 'Detail Peminjamans'
-description: 'Endpoints for borrowing detail items and book return processing.'
-order: 7000

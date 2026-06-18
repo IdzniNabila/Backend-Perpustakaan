@@ -9,11 +9,15 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        User::create([
-            'name' => 'Administrator',
-            'username' => 'admin',
-            'password' => bcrypt('admin123'),
-            'role' => 'admin'
-        ]);
+        User::updateOrCreate(
+            [
+                'username' => 'admin'
+            ],
+            [
+                'name' => 'Administrator',
+                'password' => bcrypt('admin123'),
+                'role' => 'admin'
+            ]
+        );
     }
 }
