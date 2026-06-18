@@ -20,7 +20,7 @@ class KategoriController extends Controller {
     public function update(Request $request, $id) {
         $kategori = Kategori::find($id);
         if (!$kategori) return response()->json(['message' => 'Tidak ditemukan'], 404);
-        $kategori->update($request->all());
+        $kategori->update(validate);
         return response()->json(['message' => 'Kategori diperbarui', 'data' => $kategori], 200);
     }
 

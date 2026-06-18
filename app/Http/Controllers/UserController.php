@@ -8,13 +8,11 @@ class UserController extends Controller {
     public function index() { return response()->json(User::all(), 200); }
 
     public function store(Request $request) {
-        $validated = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6'
+        User::create([
+            'name'=>$request->name,
+            'email'=>$request->email,
+            'password'=>Hash::make($request->password)
         ]);
-        $validated['password'] = Hash::make($validated['password']);
-        $user = User::create($validated);
         return response()->json(['message' => 'Petugas dibuat', 'data' => $user], 201);
     }
 

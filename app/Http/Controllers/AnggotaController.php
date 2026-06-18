@@ -26,7 +26,7 @@ class AnggotaController extends Controller {
     public function update(Request $request, $id) {
         $anggota = Anggota::find($id);
         if (!$anggota) return response()->json(['message' => 'Tidak ditemukan'], 404);
-        $anggota->update($request->all());
+        $anggota->update($validated);
         return response()->json(['message' => 'Data Anggota diperbarui', 'data' => $anggota], 200);
     }
 

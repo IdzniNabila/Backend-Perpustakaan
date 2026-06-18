@@ -60,7 +60,7 @@ class PeminjamanController extends Controller {
     public function update(Request $request, $id) {
         $peminjaman = Peminjaman::find($id);
         if (!$peminjaman) return response()->json(['message' => 'Tidak ditemukan'], 404);
-        $peminjaman->update($request->all());
+        $peminjaman->update($validated);
         return response()->json(['message' => 'Status Peminjaman Utama Diperbarui', 'data' => $peminjaman], 200);
     }
 

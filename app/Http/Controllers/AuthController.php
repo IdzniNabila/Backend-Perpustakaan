@@ -8,38 +8,35 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+        use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+
+public function login(Request $request)
     {
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required'
+    ]);
 
-        return response()->json(['message' => 'HALO, INI CONTROLLER BARU!']);
-        // 1. Validasi input wajib email dan password
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
+    $user = User::where('email', $request->email)->first();
 
-        // 2. Cari user berdasarkan email
-        $user = User::where('email', $request->email)->first();
-
-        // 3. Cek apakah user ada dan password-nya cocok
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json([
-                'message' => 'Kredensial login admin salah.'
-            ], 401);
-        }
-
-        // 4. Generate Token Sanctum jika data benar
-        $token = $user->createToken('admin_token')->plainTextToken;
-
-        // 5. Kembalikan respons sukses beserta tokennya
+    if (!$user || !Hash::check($request->password, $user->password)) {
         return response()->json([
-            'message' => 'Login Berhasil!',
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-            'user' => $user
-        ], 200);
+            'status' => 'error',
+            'message' => 'Email atau password salah!'
+        ], 401);
     }
 
+    $token = $user->createToken('api-token')->plainTextToken;
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Login berhasil',
+        'token' => $token,
+        'user' => $user
+    ]);
+    }
     public function logout(Request $request)
     {
         // Menghapus token yang sedang digunakan untuk logout

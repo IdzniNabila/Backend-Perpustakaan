@@ -11,12 +11,12 @@ class BukuController extends Controller {
 
     public function store(Request $request) {
         $validated = $request->validate([
-            'kategori_id' => 'required|exists:kategoris,id',
-            'judul' => 'required|string',
-            'penulis' => 'required|string',
-            'penerbit' => 'required|string',
-            'stok' => 'required|integer|min:0'
+            'judul'=>'required',
+            'penulis'=>'required',
+            'penerbit'=>'required',
+            'stok'=>'required|integer'
         ]);
+
         $buku = Buku::create($validated);
         return response()->json(['message' => 'Buku berhasil dimasukkan', 'data' => $buku], 201);
     }
@@ -29,7 +29,7 @@ class BukuController extends Controller {
     public function update(Request $request, $id) {
         $buku = Buku::find($id);
         if (!$buku) return response()->json(['message' => 'Tidak ditemukan'], 404);
-        $buku->update($request->all());
+        $buku->update($validated);
         return response()->json(['message' => 'Buku diperbarui', 'data' => $buku], 200);
     }
 
