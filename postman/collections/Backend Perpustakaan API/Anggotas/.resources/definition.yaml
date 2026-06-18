@@ -1,0 +1,4 @@
+$kind: collection
+name: 'Anggotas'
+description: 'CRUD endpoints for library members.'
+order: 5000

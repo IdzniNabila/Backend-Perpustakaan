@@ -1,0 +1,4 @@
+$kind: collection
+name: 'Users'
+description: 'CRUD endpoints for petugas/users.'
+order: 2000

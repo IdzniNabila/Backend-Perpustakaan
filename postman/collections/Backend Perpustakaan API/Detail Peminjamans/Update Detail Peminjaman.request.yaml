@@ -1,0 +1,19 @@
+$kind: http-request
+name: 'Update Detail Peminjaman'
+method: PUT
+url: '{{base_url}}/detail-peminjamans/:detail_peminjaman_id'
+order: 7400
+headers:
+  - key: Content-Type
+    value: application/json
+  - key: Accept
+    value: application/json
+pathVariables:
+  - key: detail_peminjaman_id
+    value: '{{detail_peminjaman_id}}'
+body:
+  type: json
+  content: |-
+    {
+      "tanggal_kembali_aktual": "2026-06-26"
+    }

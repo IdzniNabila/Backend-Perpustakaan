@@ -1,0 +1,17 @@
+$kind: http-request
+name: 'Create Detail Peminjaman - 405 Not Allowed'
+method: POST
+url: '{{base_url}}/detail-peminjamans'
+order: 7200
+headers:
+  - key: Content-Type
+    value: application/json
+  - key: Accept
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "peminjaman_id": 1,
+      "buku_id": 1
+    }

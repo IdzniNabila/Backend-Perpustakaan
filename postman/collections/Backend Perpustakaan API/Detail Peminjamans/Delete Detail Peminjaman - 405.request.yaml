@@ -1,0 +1,11 @@
+$kind: http-request
+name: 'Delete Detail Peminjaman - 405 Not Allowed'
+method: DELETE
+url: '{{base_url}}/detail-peminjamans/:detail_peminjaman_id'
+order: 7500
+headers:
+  - key: Accept
+    value: application/json
+pathVariables:
+  - key: detail_peminjaman_id
+    value: '{{detail_peminjaman_id}}'

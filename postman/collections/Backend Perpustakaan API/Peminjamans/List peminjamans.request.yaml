@@ -1,0 +1,8 @@
+$kind: http-request
+name: 'List peminjamans'
+method: GET
+url: '{{base_url}}/peminjamans'
+order: 6100
+headers:
+  - key: Accept
+    value: application/json

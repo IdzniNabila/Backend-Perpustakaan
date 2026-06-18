@@ -1,0 +1,28 @@
+$kind: http-request
+method: POST
+url: '{{base_url}}/login'
+order: 1000
+headers:
+  - key: Content-Type
+    value: application/json
+  - key: Accept
+    value: application/json
+auth:
+  type: noauth
+body:
+  type: json
+  content: |-
+    {
+      "email": "admin@example.com",
+      "password": "kudaterbang"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      if (pm.response.code === 200) {
+        const json = pm.response.json();
+        if (json.access_token) {
+          pm.collectionVariables.set('access_token', json.access_token);
+        }
+      }

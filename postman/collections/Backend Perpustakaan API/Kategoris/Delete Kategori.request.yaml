@@ -1,0 +1,11 @@
+$kind: http-request
+name: 'Delete Kategori'
+method: DELETE
+url: '{{base_url}}/kategoris/:kategori_id'
+order: 3500
+headers:
+  - key: Accept
+    value: application/json
+pathVariables:
+  - key: kategori_id
+    value: '{{kategori_id}}'

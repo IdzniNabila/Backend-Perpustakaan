@@ -1,0 +1,8 @@
+$kind: http-request
+name: 'List bukus'
+method: GET
+url: '{{base_url}}/bukus'
+order: 4100
+headers:
+  - key: Accept
+    value: application/json

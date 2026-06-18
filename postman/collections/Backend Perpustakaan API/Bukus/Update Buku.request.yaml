@@ -1,0 +1,23 @@
+$kind: http-request
+name: 'Update Buku'
+method: PUT
+url: '{{base_url}}/bukus/:buku_id'
+order: 4400
+headers:
+  - key: Content-Type
+    value: application/json
+  - key: Accept
+    value: application/json
+pathVariables:
+  - key: buku_id
+    value: '{{buku_id}}'
+body:
+  type: json
+  content: |-
+    {
+      "kategori_id": 1,
+      "judul": "Pemrograman Web Lanjut",
+      "penulis": "Dosen Informatika",
+      "penerbit": "UIN Suska Press",
+      "stok": 7
+    }

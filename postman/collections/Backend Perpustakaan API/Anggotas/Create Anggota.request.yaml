@@ -1,0 +1,19 @@
+$kind: http-request
+name: 'Create Anggota'
+method: POST
+url: '{{base_url}}/anggotas'
+order: 5200
+headers:
+  - key: Content-Type
+    value: application/json
+  - key: Accept
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nim": "1234567890",
+      "nama": "Mahasiswa Perpustakaan",
+      "prodi": "Teknik Informatika",
+      "email": "mahasiswa@example.com"
+    }

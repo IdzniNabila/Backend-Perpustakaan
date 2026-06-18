@@ -1,0 +1,8 @@
+$kind: http-request
+name: 'List kategoris'
+method: GET
+url: '{{base_url}}/kategoris'
+order: 3100
+headers:
+  - key: Accept
+    value: application/json

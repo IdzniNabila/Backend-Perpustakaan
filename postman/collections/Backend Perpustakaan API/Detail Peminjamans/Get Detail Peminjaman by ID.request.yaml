@@ -1,0 +1,11 @@
+$kind: http-request
+name: 'Get Detail Peminjaman by ID'
+method: GET
+url: '{{base_url}}/detail-peminjamans/:detail_peminjaman_id'
+order: 7300
+headers:
+  - key: Accept
+    value: application/json
+pathVariables:
+  - key: detail_peminjaman_id
+    value: '{{detail_peminjaman_id}}'
