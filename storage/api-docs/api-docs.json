@@ -2,11 +2,13 @@
     "openapi": "3.0.0",
     "info": {
         "title": "API Perpustakaan Kampus Digital",
+        "description": "Dokumentasi API untuk Backend Sistem Perpustakaan - Tugas Pemrograman Web",
         "version": "1.0.0"
     },
     "servers": [
         {
-            "url": "http://localhost:8000/api"
+            "url": "http://127.0.0.1:8001/api",
+            "description": "Server Lokal (Development)"
         }
     ],
     "paths": {
@@ -15,17 +17,21 @@
                 "tags": [
                     "Authentication"
                 ],
-                "summary": "Login Admin",
-                "description": "Endpoint untuk memvalidasi akun admin dan mendapatkan token akses",
+                "summary": "Login Pengguna untuk Mendapatkan Token",
                 "operationId": "2dd578ff7aba2721293dac66833b27d1",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
                                 "properties": {
                                     "email": {
                                         "type": "string",
+                                        "format": "email",
                                         "example": "admin@kampus.ac.id"
                                     },
                                     "password": {
@@ -40,10 +46,32 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Login Berhasil"
+                        "description": "Login Berhasil",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string"
+                                        },
+                                        "token_type": {
+                                            "type": "string",
+                                            "example": "Bearer"
+                                        },
+                                        "user": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "401": {
-                        "description": "Kredensial Salah"
+                        "description": "Kredensial atau Password Salah"
+                    },
+                    "422": {
+                        "description": "Validasi Form Salah / Kurang Data"
                     }
                 }
             }
@@ -53,12 +81,27 @@
                 "tags": [
                     "Authentication"
                 ],
-                "summary": "Logout Admin",
-                "description": "Endpoint untuk menghancurkan token aktif admin",
+                "summary": "Logout Pengguna dan Menghancurkan Token",
                 "operationId": "68a6108af04af5e3bc1ea68a6c6f1299",
                 "responses": {
                     "200": {
-                        "description": "Logout Berhasil"
+                        "description": "Berhasil Logout",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Berhasil keluar sistem, token dihancurkan."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized / Token Tidak Valid"
                     }
                 },
                 "security": [
@@ -73,6 +116,7 @@
         "securitySchemes": {
             "bearerAuth": {
                 "type": "http",
+                "description": "Masukkan Token JWT kamu di sini untuk mengakses API yang diproteksi",
                 "bearerFormat": "JWT",
                 "scheme": "bearer"
             }

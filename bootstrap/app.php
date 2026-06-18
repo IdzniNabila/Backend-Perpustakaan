@@ -13,10 +13,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // Biarkan bawaan default atau kosongkan jika belum ada custom middleware
+        // Tempat custom middleware jika ada di kemudian hari
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        // DI SINI TEMPAT YANG BENAR! 
+        // Paksa Laravel memberikan respon JSON jika terjadi error otentikasi di API
         $exceptions->shouldRenderJsonWhen(function (Request $request) {
             return $request->is('api/*') || $request->expectsJson();
         });

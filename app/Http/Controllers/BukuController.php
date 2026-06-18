@@ -8,107 +8,108 @@ use App\Http\Controllers\Controller;
 
 class BukuController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $keyword =
-        $request->keyword;
-
-        $buku = Buku::with('kategori')
-
-        ->when(
-            $keyword,
-            function ($query) use ($keyword)
-            {
-                $query->where(
-                    'judul',
-                    'like',
-                    "%$keyword%"
-                );
-            }
-        )
-
-        ->latest()
-        ->paginate(10);
-
         return response()->json(
-            $buku
+            Buku::with('kategori')
+                ->latest()
+                ->paginate(10)
         );
     }
 
     public function store(Request $request)
     {
         $request->validate([
-
-            'kategori_id'=>'required',
-
-            'kode_buku'=>'required|unique:buku',
-
-            'judul'=>'required',
-
-            'penulis'=>'required',
-
-            'penerbit'=>'required',
-
-            'tahun_terbit'=>'required',
-
-            'stok'=>'required'
+            'kategori_id' => 'required',
+            'kode_buku' => 'required|unique:buku',
+            'judul' => 'required',
+            'penulis' => 'required',
+            'penerbit' => 'required',
+            'tahun_terbit' => 'required',
+            'stok' => 'required'
         ]);
 
+        $cover = null;
+
+        if ($request->hasFile('cover')) {
+
+            $cover = $request
+                ->file('cover')
+                ->store(
+                    'cover',
+                    'public'
+                );
+        }
+
         $buku = Buku::create([
-            'kategori_id'=>$request->kategori_id,
-            'kode_buku'=>$request->kode_buku,
-            'judul'=>$request->judul,
-            'penulis'=>$request->penulis,
-            'penerbit'=>$request->penerbit,
-            'tahun_terbit'=>$request->tahun_terbit,
-            'stok'=>$request->stok
+            'kategori_id' => $request->kategori_id,
+            'kode_buku' => $request->kode_buku,
+            'judul' => $request->judul,
+            'penulis' => $request->penulis,
+            'penerbit' => $request->penerbit,
+            'tahun_terbit' => $request->tahun_terbit,
+            'stok' => $request->stok,
+            'cover' => $cover
         ]);
 
         return response()->json([
-            'message'=>'Buku berhasil ditambahkan',
-            'data'=>$buku
-        ]);
+            'message' => 'Buku berhasil ditambahkan',
+            'data' => $buku
+        ], 201);
     }
 
-    public function show($id)
+    public function show(string $id)
     {
-        return Buku::with(
-            'kategori'
-        )->findOrFail($id);
+        return Buku::with('kategori')
+            ->findOrFail($id);
     }
 
     public function update(
         Request $request,
-        $id
-    )
-    {
-        $buku =
-        Buku::findOrFail($id);
+        string $id
+    ) {
 
-        $buku->update([
-            'kategori_id'=>$request->kategori_id,
-            'kode_buku'=>$request->kode_buku,
-            'judul'=>$request->judul,
-            'penulis'=>$request->penulis,
-            'penerbit'=>$request->penerbit,
-            'tahun_terbit'=>$request->tahun_terbit,
-            'stok'=>$request->stok
-        ]);
+        $buku = Buku::findOrFail($id);
+
+        $data = $request->all();
+
+        if ($request->hasFile('cover')) {
+
+            $data['cover'] = $request
+                ->file('cover')
+                ->store(
+                    'cover',
+                    'public'
+                );
+        }
+
+        $buku->update($data);
 
         return response()->json([
-            'message'=>'Buku berhasil diupdate'
+            'message' => 'Buku berhasil diupdate',
+            'data' => $buku
         ]);
     }
 
-    public function destroy($id)
+    public function destroy(string $id)
     {
-        $buku =
-        Buku::findOrFail($id);
+        $buku = Buku::findOrFail($id);
 
         $buku->delete();
 
         return response()->json([
-            'message'=>'Buku berhasil dihapus'
+            'message' => 'Buku berhasil dihapus'
         ]);
+    }
+
+    public function search(Request $request)
+    {
+        return Buku::with('kategori')
+            ->where(
+                'judul',
+                'LIKE',
+                "%{$request->q}%"
+            )
+            ->get();
     }
 }

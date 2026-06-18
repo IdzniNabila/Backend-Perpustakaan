@@ -22,50 +22,50 @@ class KategoriController extends Controller
         ]);
 
         $kategori = Kategori::create([
-            'nama_kategori' =>
-            $request->nama_kategori
+            'nama_kategori' => $request->nama_kategori
         ]);
 
         return response()->json([
             'message' => 'Kategori berhasil ditambahkan',
             'data' => $kategori
-        ]);
+        ], 201);
     }
 
-    public function show($id)
+    public function show(string $id)
     {
-        return Kategori::findOrFail($id);
+        $kategori = Kategori::findOrFail($id);
+
+        return response()->json($kategori);
     }
 
     public function update(
         Request $request,
-        $id
+        string $id
     ) {
+        $kategori = Kategori::findOrFail($id);
 
-        $kategori =
-        Kategori::findOrFail($id);
+        $request->validate([
+            'nama_kategori' => 'required'
+        ]);
 
         $kategori->update([
-            'nama_kategori' =>
-            $request->nama_kategori
+            'nama_kategori' => $request->nama_kategori
         ]);
 
         return response()->json([
-            'message' =>
-            'Kategori berhasil diupdate'
+            'message' => 'Kategori berhasil diupdate',
+            'data' => $kategori
         ]);
     }
 
-    public function destroy($id)
+    public function destroy(string $id)
     {
-        $kategori =
-        Kategori::findOrFail($id);
+        $kategori = Kategori::findOrFail($id);
 
         $kategori->delete();
 
         return response()->json([
-            'message' =>
-            'Kategori berhasil dihapus'
+            'message' => 'Kategori berhasil dihapus'
         ]);
     }
 }
