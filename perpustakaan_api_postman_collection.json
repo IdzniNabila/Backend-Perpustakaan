@@ -1,0 +1,165 @@
+{
+	"info": {
+		"_postman_id": "9a3b2c1d-e4f5-6a7b-8c9d-0e1f2a3b4c5d",
+		"name": "Sistem Perpustakaan Kampus API",
+		"description": "Koleksi API Lengkap untuk Sistem Manajemen Perpustakaan Kampus dengan Laravel Sanctum",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Autentikasi",
+			"item": [
+				{
+					"name": "Login Petugas",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.access_token) {",
+									"    pm.environment.set(\"token\", jsonData.access_token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Accept", "value": "application/json", "type": "text" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"ahmad.petugas@kampus.ac.id\",\n    \"password\": \"kudaterbang\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{base_url}}/login", "host": ["{{base_url}}"], "path": ["login"] }
+					}
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Accept", "value": "application/json", "type": "text" }
+						],
+						"url": { "raw": "{{base_url}}/logout", "host": ["{{base_url}}"], "path": ["logout"] }
+					}
+				}
+			]
+		},
+		{
+			"name": "Master Buku",
+			"item": [
+				{
+					"name": "Get All Buku",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{base_url}}/bukus", "host": ["{{base_url}}"], "path": ["bukus"] }
+					}
+				},
+				{
+					"name": "Tambah Buku Baru",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"kategori_id\": 1,\n    \"judul\": \"Pemrograman JavaScript Lanjut\",\n    \"penulis\": \"Sandhika Galih\",\n    \"penerbit\": \"Informatika Press\",\n    \"stok\": 10\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{base_url}}/bukus", "host": ["{{base_url}}"], "path": ["bukus"] }
+					}
+				},
+				{
+					"name": "Detail Buku",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{base_url}}/bukus/1", "host": ["{{base_url}}"], "path": ["bukus", "1"] }
+					}
+				},
+				{
+					"name": "Update Buku",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"judul\": \"Pemrograman Web Modern Revisi\",\n    \"stok\": 12\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{base_url}}/bukus/1", "host": ["{{base_url}}"], "path": ["bukus", "1"] }
+					}
+				},
+				{
+					"name": "Hapus Buku",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": { "raw": "{{base_url}}/bukus/1", "host": ["{{base_url}}"], "path": ["bukus", "1"] }
+					}
+				}
+			]
+		},
+		{
+			"name": "Transaksi Peminjaman",
+			"item": [
+				{
+					"name": "Get Semua Transaksi",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{base_url}}/peminjamans", "host": ["{{base_url}}"], "path": ["peminjamans"] }
+					}
+				},
+				{
+					"name": "Input Peminjaman Baru",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"anggota_id\": 1,\n    \"tanggal_pinjam\": \"2026-06-18\",\n    \"tanggal_harus_kembali\": \"2026-06-25\",\n    \"buku_ids\": [1, 2]\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{base_url}}/peminjamans", "host": ["{{base_url}}"], "path": ["peminjamans"] }
+					}
+				},
+				{
+					"name": "Proses Pengembalian Buku",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"tanggal_kembali_aktual\": \"2026-06-27\"\n}",
+							"options": { "raw": { "language": "json" } }
+						},
+						"url": { "raw": "{{base_url}}/detail-peminjamans/1", "host": ["{{base_url}}"], "path": ["detail-peminjamans", "1"] }
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000/api",
+			"type": "string"
+		}
+	]
+}

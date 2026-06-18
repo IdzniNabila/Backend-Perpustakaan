@@ -1,3 +1,4 @@
+<?php
 namespace App\Http\Controllers;
 use App\Models\DetailPeminjaman;
 use App\Models\Peminjaman;
