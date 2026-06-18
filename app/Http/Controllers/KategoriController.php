@@ -1,33 +1,71 @@
 <?php
-namespace App\Http\Controllers;
+
+namespace App\Http\Controllers\Api;
+
 use App\Models\Kategori;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class KategoriController extends Controller {
-    public function index() { return response()->json(Kategori::all(), 200); }
-
-    public function store(Request $request) {
-        $validated = $request->validate(['nama_kategori' => 'required|string']);
-        $kategori = Kategori::create($validated);
-        return response()->json(['message' => 'Kategori ditambahkan', 'data' => $kategori], 201);
+class KategoriController extends Controller
+{
+    public function index()
+    {
+        return response()->json(
+            Kategori::latest()->get()
+        );
     }
 
-    public function show($id) {
-        $kategori = Kategori::find($id);
-        return $kategori ? response()->json($kategori, 200) : response()->json(['message' => 'Tidak ditemukan'], 404);
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nama_kategori' => 'required'
+        ]);
+
+        $kategori = Kategori::create([
+            'nama_kategori' =>
+            $request->nama_kategori
+        ]);
+
+        return response()->json([
+            'message' => 'Kategori berhasil ditambahkan',
+            'data' => $kategori
+        ]);
     }
 
-    public function update(Request $request, $id) {
-        $kategori = Kategori::find($id);
-        if (!$kategori) return response()->json(['message' => 'Tidak ditemukan'], 404);
-        $kategori->update(validate);
-        return response()->json(['message' => 'Kategori diperbarui', 'data' => $kategori], 200);
+    public function show($id)
+    {
+        return Kategori::findOrFail($id);
     }
 
-    public function destroy($id) {
-        $kategori = Kategori::find($id);
-        if (!$kategori) return response()->json(['message' => 'Tidak ditemukan'], 404);
+    public function update(
+        Request $request,
+        $id
+    ) {
+
+        $kategori =
+        Kategori::findOrFail($id);
+
+        $kategori->update([
+            'nama_kategori' =>
+            $request->nama_kategori
+        ]);
+
+        return response()->json([
+            'message' =>
+            'Kategori berhasil diupdate'
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        $kategori =
+        Kategori::findOrFail($id);
+
         $kategori->delete();
-        return response()->json(['message' => 'Kategori dihapus'], 200);
+
+        return response()->json([
+            'message' =>
+            'Kategori berhasil dihapus'
+        ]);
     }
 }

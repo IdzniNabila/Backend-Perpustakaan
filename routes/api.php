@@ -1,27 +1,28 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\KategoriController;
-use App\Http\Controllers\BukuController;
-use App\Http\Controllers\AnggotaController;
-use App\Http\Controllers\PeminjamanController;
-use App\Http\Controllers\DetailPeminjamanController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BukuController;
+use App\Http\Controllers\Api\KategoriController;
 
-// Endpoint Publik (Tanpa Token)
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login',
+    [AuthController::class,'login']
+);
 
-// Endpoint Terproteksi (Wajib membawa Bearer Token)
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
+Route::middleware('auth:sanctum')
+->group(function(){
 
-    // 6 API Resource untuk Full CRUD Endpoints
-    Route::apiResource('users', UserController::class);
-    Route::apiResource('kategoris', KategoriController::class);
-    Route::apiResource('bukus', BukuController::class);
-    Route::apiResource('anggotas', AnggotaController::class);
-    Route::apiResource('peminjamans', PeminjamanController::class);
-    Route::apiResource('detail-peminjamans', DetailPeminjamanController::class);
+    Route::post('/logout',
+        [AuthController::class,'logout']
+    );
+
+    Route::apiResource(
+        'kategori',
+        KategoriController::class
+    );
+
+    Route::apiResource(
+        'buku',
+        BukuController::class
+    );
 });
-
